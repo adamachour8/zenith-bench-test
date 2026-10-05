@@ -1,0 +1,10 @@
+services:
+  firmware:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.firmware
+    volumes:
+      - ../firmware:/home/dev/firmware
+    working_dir: /home/dev/firmware
+    stdin_open: true
+    tty: true

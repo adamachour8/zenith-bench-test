@@ -1,0 +1,11 @@
+# PlatformIO
+.pio/
+
+# IDE
+.vscode/
+
+# Python
+__pycache__/
+
+# OS
+.DS_Store
