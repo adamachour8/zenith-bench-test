@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "IMUReader.h"
 
-#define PIN_IMU_CS 10
+#define PIN_IMU_CS 37
 #define LED_PIN 13
 
 IMUReader imu(PIN_IMU_CS);
