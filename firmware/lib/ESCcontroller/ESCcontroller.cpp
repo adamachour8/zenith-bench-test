@@ -3,21 +3,33 @@
 ESCcontroller::ESCcontroller(uint8_t escPin)
     : _escPin(escPin), _pwm(0), _armed(false) {}
 
-int ESCcontroller::arm() {
-    if (_armed) {
-        return 0; // Already armed
-    }
+int ESCcontroller::init() {
     _esc.attach(_escPin);
-    _esc.writeMicroseconds(1000); // Send minimum PWM signal to arm ESC
-    delay(2000); // Wait for ESC to arm
-    _armed = true;
-    return 1; // Successfully armed
-}     
-
-void ESCcontroller::setPWM(uint16_t pwm) {
-    if (_armed) {
-        _pwm = pwm;
-        _esc.writeMicroseconds(_pwm);
-    }
+    return 1;
 }
 
+int ESCcontroller::arm() {
+    if (_armed) return 0;
+
+    _esc.writeMicroseconds(PWM_ARM);
+    delay(2000); // TODO: replace with non-blocking arm sequence
+    _armed = true;
+    return 1;
+}
+
+void ESCcontroller::disarm() {
+    _esc.writeMicroseconds(PWM_ARM);
+    _pwm = 0;
+    _armed = false;
+}
+
+void ESCcontroller::setPWM(uint16_t pwm) {
+    if (!_armed) return;
+
+    // Clamp to safe range
+    if (pwm < PWM_MIN) pwm = PWM_MIN;
+    if (pwm > PWM_MAX) pwm = PWM_MAX;
+
+    _pwm = pwm;
+    _esc.writeMicroseconds(_pwm);
+}
