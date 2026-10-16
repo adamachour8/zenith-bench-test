@@ -2,18 +2,15 @@
 #include "IMUReader.h"
 
 #define PIN_IMU_CS 37
-#define LED_PIN 13
 
 IMUReader imu(PIN_IMU_CS);
 
 void setup() {
     Serial.begin(115200);
-    pinMode(LED_PIN, OUTPUT);
 
     imu.begin();
 
     Serial.println("Bench test ready.");
-    digitalWrite(LED_PIN, HIGH);
 }
 
 void loop() {
